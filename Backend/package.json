@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ],
+  "esModuleInterop": true,
+  "name": "openvidu-server",
+  "version": "1.0.0",
+  "description": "OpenVidu server application",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsc index.ts && node index.js",
+    "build": "tsc index.ts"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "openvidu-node-client": "^2.19.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
+}

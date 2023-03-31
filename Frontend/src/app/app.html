@@ -1,0 +1,28 @@
+<ov-videoconference [tokens]="tokens">
+			<ov-panel *ovPanel>
+				<div *ovChatPanel id="my-chat-panel">
+					<div class="lower">
+						<mat-toolbar id="lowerChat" color="warn">
+						  <div class="leftButtonClip">
+							<button mat-icon-button class="clipButton" (click)="openDialog()" aria-label="Drop files">
+							  <img  class="imageButtonBottomPart" src="assets/AttachNight1.png" alt="">
+							</button>
+						  </div>
+						  <div class="midEmojiButton">
+							<button class="emoji-mart--button--dimensions" (click)="isEmojiPickerVisible = !isEmojiPickerVisible;">😀
+							</button>
+						  </div>
+						  <div class="rightTextArea">
+							<div class="form--send-message">
+								<textarea [(ngModel)]="textArea" id="textAreaForm" placeholder="Type anything"></textarea>
+								<button mat-icon-button class="clipButton" aria-label="Send"><img class="imageButtonBottomPart"   src="assets/SendNight1.png" alt="" ></button>
+						  	</div>
+						  </div>
+						</mat-toolbar>
+					  </div>
+				</div>
+				<div *ovParticipantsPanel id="my-participants-panel">
+					This is my custom participants panel
+				</div>
+			</ov-panel>
+		</ov-videoconference>
