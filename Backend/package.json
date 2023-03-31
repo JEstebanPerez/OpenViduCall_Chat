@@ -29,7 +29,7 @@
     "@nestjs/websockets": "^7.6.11",
     "debug": "^4.3.4",
     "dotenv": "^16.0.3",
-    "mongoose": "^5.11.15",
+    "mongoose": "^5.13.16",
     "openvidu-node-client": "^2.26.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
