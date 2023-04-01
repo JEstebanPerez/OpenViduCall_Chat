@@ -10,15 +10,38 @@ export class SessionService {
 
     private logger: Logger = new Logger('SessionService');
 
-    async findOneById(idSession: String): Promise<Session> {
-        return this.sessionModel.findOne({ idSession });
+    async findOneBySessionName(sessionName: String): Promise<Session> {
+        return this.sessionModel.findOne({ sessionName });
     }
 
 
-    async createSession( session: CreateSessionDto): Promise<Session>{
-        let newSession = new this.sessionModel(session);
+    async createSession( sessionName: String): Promise<Session>{
+        let newSession = new this.sessionModel();
+        newSession.sessionName=sessionName;
+        newSession.participants=[];
+        newSession.message=[];
+        newSession.creationDate= new Date();
         return newSession.save();
     }
+
+    async addMessage(sessionName: String, message: any, isPrivate:boolean) {
+        let session = await this.sessionModel.findOne({sessionName});
+
+        if(session.message == null) session.message = [message];
+        else session.message.unshift(message);
+
+        session.save();
+    }
+
+    async addParticipants(sessionName: String, userName: any, isPrivate:boolean) {
+        let session = await this.sessionModel.findOne({sessionName});
+
+        if(session.participants == null) session.participants = [userName];
+        else session.participants.unshift(userName);
+
+        session.save();
+    }
+
 
     findOneBySocketIdAndEraseActivity(socketId: String){
         return this.sessionModel.findOneAndUpdate({socketId:socketId}, {socketId: null, active: false}).exec();

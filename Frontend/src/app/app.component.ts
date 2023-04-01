@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 	sessionId = "panel-directive-example";
 	tokens!: TokenModel;
 
-	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer) { }
+	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService) { }
 
 
 	async ngOnInit() {
@@ -51,6 +51,12 @@ export class AppComponent implements OnInit {
 	}
 
 	createSession(sessionId: string): Promise<string> {
+		let data ={sessionName: sessionId};
+		this.sessionService.createSession(data).subscribe(
+			session => console.log("Create correctly"),
+			error => console.error(error)
+		)
+
 		return lastValueFrom(this.httpClient.post(
 			this.APPLICATION_SERVER_URL + 'api/sessions',
 			{ customSessionId: sessionId },
@@ -124,6 +130,7 @@ export class AppComponent implements OnInit {
 }
 
 import {Subject} from "rxjs";
+import { SessionService } from "./services/session.service";
 
 @Component({
   selector: 'cc-customizable-chat-chatbox-file-dialog',

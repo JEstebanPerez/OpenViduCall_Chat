@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
 
 export const SessionSchema = new mongoose.Schema({
-    id: String,
+    sessionName: String,
     participants:{},
-    mensajes:[],
+    message:[],
     creationDate: Date
 });

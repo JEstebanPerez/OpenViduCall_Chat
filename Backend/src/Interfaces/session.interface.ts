@@ -1,8 +1,8 @@
 import {Document} from "mongoose";
 
 export interface Session extends Document{
-    id: String,
-    participants:string[],
-    mensajes:any[],
+    sessionName: String,
+    participants:String[],
+    message:any[],
     creationDate: Date
 }
