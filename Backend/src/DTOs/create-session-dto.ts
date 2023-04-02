@@ -1,7 +1,7 @@
 
 export class CreateSessionDto {
     readonly sessionName: String;
-    participants: String[];
-    message: any[];
+    /*participants: String[];
+    message: any[];*/
     readonly creationDate: Date;
   }

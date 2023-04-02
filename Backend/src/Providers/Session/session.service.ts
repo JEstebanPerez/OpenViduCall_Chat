@@ -18,13 +18,11 @@ export class SessionService {
     async createSession( sessionName: String): Promise<Session>{
         let newSession = new this.sessionModel();
         newSession.sessionName=sessionName;
-        newSession.participants=[];
-        newSession.message=[];
         newSession.creationDate= new Date();
         return newSession.save();
     }
 
-    async addMessage(sessionName: String, message: any, isPrivate:boolean) {
+    /*async addMessage(sessionName: String, message: any, isPrivate:boolean) {
         let session = await this.sessionModel.findOne({sessionName});
 
         if(session.message == null) session.message = [message];
@@ -40,7 +38,7 @@ export class SessionService {
         else session.participants.unshift(userName);
 
         session.save();
-    }
+    }*/
 
 
     findOneBySocketIdAndEraseActivity(socketId: String){
