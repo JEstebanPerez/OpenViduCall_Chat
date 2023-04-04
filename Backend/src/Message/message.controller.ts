@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Logger, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Get, Logger, Param, Post, Put, Query} from '@nestjs/common';
 import {MessageService} from "../Providers/Message/message.service";
 import { CreateMessageDto } from 'src/DTOs/create-message-dto';
 
@@ -15,8 +15,13 @@ export class MessageController {
     }
 
     @Get('message')
-    async getMessage(@Body('sessionName') sessionName: String){
-        return await this.messageService.findBySessionName(sessionName);
+    async getMessage(@Query('sessionName') sessionName: String){
+        if (sessionName){
+            return await this.messageService.findBySessionName(sessionName);
+        }else{
+            return await this.messageService.findAll();
+        }
+        
     }
 
 

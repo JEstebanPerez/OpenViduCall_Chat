@@ -1,9 +1,12 @@
 
 
-<ov-videoconference [tokens]="tokens" (onSessionCreated)="subscribeToParticipants()">
+<ov-videoconference [tokens]="tokens">
 	
 			<ov-panel *ovPanel>
 				<div *ovChatPanel id="my-chat-panel">
+					
+					<div *ngFor="let msg of messages">{{ msg.sender }}: {{ msg.message }}</div>
+
 					<div class="lower">
 						<mat-toolbar id="lowerChat" color="warn">
 						  <div class="leftButtonClip">
@@ -18,7 +21,7 @@
 						  <div class="rightTextArea">
 							<div class="form--send-message">
 								<textarea [(ngModel)]="textArea" id="textAreaForm" placeholder="Type anything"></textarea>
-								<button mat-icon-button class="clipButton" (click)="onSubmit()" aria-label="Send"><img class="imageButtonBottomPart"   src="assets/SendNight1.png" alt="" ></button>
+								<button mat-icon-button class="clipButton" (click)="onSubmit(textArea)" aria-label="Send"><img class="imageButtonBottomPart"   src="assets/SendNight1.png" alt="" ></button>
 						  	</div>
 						  </div>
 						</mat-toolbar>

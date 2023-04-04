@@ -12,7 +12,12 @@ export class MessageService {
 
     async findBySessionName(sessionName: String): Promise<Message[]> {
         return this.messageModel.find({ sessionName });
-      }
+    }
+
+    async findAll(): Promise<Message[]> {
+        return this.messageModel.find();
+    }
+
 
     async createMessage( sessionName: String, message: String, sender: String): Promise<Message>{
         let newMessage = new this.messageModel();

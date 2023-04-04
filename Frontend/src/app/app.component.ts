@@ -4,6 +4,7 @@ import { Subscription, lastValueFrom } from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {DomSanitizer} from "@angular/platform-browser";
 import { Session,  SignalOptions  } from "openvidu-browser";
+import * as $ from "jquery";
 
 import { ParticipantAbstractModel, ParticipantService, Signal, TokenModel } from "openvidu-angular";
 
@@ -19,13 +20,9 @@ export class AppComponent implements OnInit {
 
 	sessionId = "panel-directive-example";
 	tokens!: TokenModel;
-	session!: Session;
-	localParticipant!: ParticipantAbstractModel;
-	localParticipantSubs!: Subscription;
-	localUserStreamManager: any;
-	messages: String[] = [];
+	messages: message[] = [];
 
-	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, private participantService: ParticipantService) { }
+	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, public messageService: MessageService) { }
 
 
 	async ngOnInit() {
@@ -55,17 +52,19 @@ export class AppComponent implements OnInit {
 		const sessionId = await this.createSession(this.sessionId);
 		return await this.createToken(sessionId);
 	}
-
-	onSessionCreated(session: Session) {
-		console.log("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
-	}
-
 	createSession(sessionId: string): Promise<string> {
 		let data ={sessionName: sessionId};
 		this.sessionService.createSession(data).subscribe(
 			session => console.log("Create correctly"),
 			error => console.error(error)
 		)
+
+		this.messageService.getMessage(this.sessionId).subscribe(
+			p => this.messages = p,
+			error => console.error(error)
+		)
+
+		console.log(this.messages)
 		
 		return lastValueFrom(this.httpClient.post(
 			this.APPLICATION_SERVER_URL + 'api/sessions',
@@ -82,20 +81,6 @@ export class AppComponent implements OnInit {
 		));
 	}
 
-	
-
-	async subscribeToParticipants() {
-		this.localParticipantSubs = this.participantService.localParticipantObs.subscribe((p) => {
-		  this.localParticipant = p;
-		});
-		
-		console.log("SOY: "+this.localParticipant.getNickname());
-	  }
-
-
-	joinSession(){
-		
-	}
 
 	// NUEVO
 
@@ -132,8 +117,21 @@ export class AppComponent implements OnInit {
 		)
 	  }
 
-	  onSubmit() {
-		
+	  
+
+	  onSubmit(message: String) {
+		const nickname = document.getElementById("nickname");
+		if (nickname) {
+			let data ={sessionName: this.sessionId, message: message, sender: nickname.textContent!};
+			this.messageService.createMessage(data).subscribe(
+				message => { this.textArea="", document.getElementById("nickname-container")!.style.pointerEvents = "none", this.messages.push(message)
+				} ,
+				error => console.error(error)
+			)
+		}
+
+		console.log(this.messages);
+
 	  }
 
 	  addEmoji(event: any) {
@@ -146,6 +144,8 @@ export class AppComponent implements OnInit {
 import {Subject} from "rxjs";
 import { SessionService } from "./services/session.service";
 import { session } from "./models/session.model";
+import { MessageService } from "./services/message.service";
+import { message } from "./models/message.model";
 
 @Component({
   selector: 'cc-customizable-chat-chatbox-file-dialog',
