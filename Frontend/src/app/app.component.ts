@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
 	sessionId = "panel-directive-example";
 	tokens!: TokenModel;
 	messages: message[] = [];
+	user?:string;
 
 	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, public messageService: MessageService) { }
 
@@ -50,6 +51,7 @@ export class AppComponent implements OnInit {
 
 	async getToken(): Promise<string> {
 		const sessionId = await this.createSession(this.sessionId);
+		
 		return await this.createToken(sessionId);
 	}
 	createSession(sessionId: string): Promise<string> {
@@ -64,7 +66,8 @@ export class AppComponent implements OnInit {
 			error => console.error(error)
 		)
 
-		console.log(this.messages)
+		
+
 		
 		return lastValueFrom(this.httpClient.post(
 			this.APPLICATION_SERVER_URL + 'api/sessions',
@@ -84,9 +87,6 @@ export class AppComponent implements OnInit {
 
 	// NUEVO
 
-	@Input() user: any;
-	@Input() chatObs: any;
-
 	files: File[] = [];
 	
 	public textArea = "";
@@ -102,8 +102,6 @@ export class AppComponent implements OnInit {
 			for (let i = 0; i < this.files.length; i++) {
 			  const formData: FormData = new FormData();
 			  formData.append('file', this.files[i], this.files[i].name);
-			  formData.append('userName', this.user.userName as string);
-			  formData.append('chatId', this.chatObs._id as string);
 			  /*
 			  this.chatboxService.sendFiles(this.listUrls[0], formData).subscribe(
 				e => {
@@ -117,18 +115,20 @@ export class AppComponent implements OnInit {
 		)
 	  }
 
+	  startChat(){
+		var nickname = document.getElementById("nickname");
+		this.user = nickname!.textContent?.toString();
+		document.getElementById("nickname-container")!.style.pointerEvents = "none"
+	  }
 	  
 
 	  onSubmit(message: String) {
-		const nickname = document.getElementById("nickname");
-		if (nickname) {
-			let data ={sessionName: this.sessionId, message: message, sender: nickname.textContent!};
-			this.messageService.createMessage(data).subscribe(
-				message => { this.textArea="", document.getElementById("nickname-container")!.style.pointerEvents = "none", this.messages.push(message)
-				} ,
-				error => console.error(error)
-			)
-		}
+		let data ={sessionName: this.sessionId, message: message, sender: this.user!};
+		this.messageService.createMessage(data).subscribe(
+			message => { this.textArea="", this.messages.push(message)
+			} ,
+			error => console.error(error)
+		)
 
 		console.log(this.messages);
 

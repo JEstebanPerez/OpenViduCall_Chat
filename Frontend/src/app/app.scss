@@ -1,11 +1,14 @@
 #my-chat-panel, #my-participants-panel {
-	text-align: center;
 	height: 90%;
 	margin: 20px;
 }
 #my-chat-panel {
-	background: #c9ffb2;
+	background: #535353;
 }
 #my-participants-panel {
 	background: #ddf2ff;
+}
+
+#chat-display{
+	height: 70%;
 }

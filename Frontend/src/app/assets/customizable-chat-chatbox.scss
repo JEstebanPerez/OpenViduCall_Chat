@@ -176,7 +176,14 @@ body {
   word-break: break-all;
 }
 
+.prueba{
+	background-color: rebeccapurple;
+  margin-bottom: 1000px;
+}
+
 .leftItem {
+  width: 20%;
+  background-color:coral;
   @include themify($themes) {
     background: themed('message-left-fill');
     border: 2px solid themed('message-left-border')
@@ -199,6 +206,7 @@ body {
 }
 
 .rightItem {
+  background-color: $light-medium-blue;
   float: right;
   @include themify($themes) {
     background: themed('message-right-fill');

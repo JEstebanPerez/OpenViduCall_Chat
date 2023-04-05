@@ -1,12 +1,29 @@
 
 
-<ov-videoconference [tokens]="tokens">
+<ov-videoconference (click)="startChat()" [tokens]="tokens">
 	
 			<ov-panel *ovPanel>
 				<div *ovChatPanel id="my-chat-panel">
-					
-					<div *ngFor="let msg of messages">{{ msg.sender }}: {{ msg.message }}</div>
 
+					<div class="prueba" >
+						<div *ngFor="let msg of messages">
+							<br>
+							<mat-card *ngIf="msg.sender == user" class="rightItem">
+								<!-- This is a normal message-->
+								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+												[innerHTML]="msg.message"></mat-card-subtitle>
+							</mat-card>
+							<br>
+							<br>
+							<mat-card *ngIf="msg.sender != user" class="leftItem">
+								<mat-card-title
+								class="chat-messages--text--color chat-messages--text-title--dimension">{{msg.sender}}</mat-card-title>
+								<!-- This is a normal message-->
+								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+												[innerHTML]="msg.message"></mat-card-subtitle>
+							</mat-card>
+						</div>
+					</div>
 					<div class="lower">
 						<mat-toolbar id="lowerChat" color="warn">
 						  <div class="leftButtonClip">
