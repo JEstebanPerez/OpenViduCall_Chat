@@ -3,10 +3,10 @@
 <ov-videoconference (click)="startChat()" [tokens]="tokens">
 	
 			<ov-panel *ovPanel>
-				<div *ovChatPanel id="my-chat-panel">
+				<div *ovChatPanel  >
 
-					<div class="prueba" >
-						<div *ngFor="let msg of messages">
+					<div class="upper">
+						<div *ngFor="let msg of messages" >
 							<br>
 							<mat-card *ngIf="msg.sender == user" class="rightItem">
 								<!-- This is a normal message-->
@@ -44,8 +44,10 @@
 						</mat-toolbar>
 					  </div>
 				</div>
+				
 				<div *ovParticipantsPanel id="my-participants-panel">
 					This is my custom participants panel
 				</div>
 			</ov-panel>
 		</ov-videoconference>
+		

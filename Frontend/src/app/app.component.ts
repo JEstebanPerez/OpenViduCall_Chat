@@ -65,7 +65,8 @@ export class AppComponent implements OnInit {
 			p => this.messages = p,
 			error => console.error(error)
 		)
-
+		
+		
 		
 
 		
@@ -119,6 +120,11 @@ export class AppComponent implements OnInit {
 		var nickname = document.getElementById("nickname");
 		this.user = nickname!.textContent?.toString();
 		document.getElementById("nickname-container")!.style.pointerEvents = "none"
+
+		//Para focusear siempre el ultimo mensaje en el chat
+		let upperElement = document.querySelector(".upper") as HTMLElement;
+		let lastChild = upperElement.lastElementChild as HTMLElement;
+		lastChild.scrollIntoView();
 	  }
 	  
 
@@ -129,8 +135,7 @@ export class AppComponent implements OnInit {
 			} ,
 			error => console.error(error)
 		)
-
-		console.log(this.messages);
+		
 
 	  }
 

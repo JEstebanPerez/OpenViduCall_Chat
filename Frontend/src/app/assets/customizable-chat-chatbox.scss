@@ -113,7 +113,7 @@ body {
 
 #lowerChat {
   @include themify($themes) {
-    border-top: 2px solid themed('medium-color');
+    border-top: 2px solid themed('medium-color'); 
     background:transparent;
   }
   width: 50%;
@@ -121,9 +121,10 @@ body {
 }
 
 .upper {
-  height: 7%;
   width: 100%;
-  position: fixed;
+  height: 93%;
+  position: absolute;
+  overflow-y: scroll;
 }
 
 .medium {
@@ -176,10 +177,7 @@ body {
   word-break: break-all;
 }
 
-.prueba{
-	background-color: rebeccapurple;
-  margin-bottom: 1000px;
-}
+
 
 .leftItem {
   width: 20%;
