@@ -224,6 +224,7 @@ body {
   resize: none;
   box-sizing: border-box;
   height: auto;
+  width: 200px;
   min-height: 41px;
   max-height: 97px;
   width: 100%;
@@ -244,6 +245,13 @@ body {
 
 .clipButton {
   width: auto;
+}
+
+.sendButton{
+  width:auto;
+  margin-left: 1%;
+  margin-top: 2.2%;
+  position:absolute;
 }
 
 .emoji-mart--button--dimensions {
@@ -296,16 +304,23 @@ body {
 
 .leftButtonClip {
   width: 4%;
+  
+  position:relative;
+  margin-left: 1%;
+  margin-right: 2%; 
 }
 
 .rightTextArea {
-  width: 45%;
+  width: 75%;
   float: left;
   margin-left: 10px;
 }
 
 .midEmojiButton {
   width: 4%;
+  position:relative;
+  margin-left: 2%;
+  margin-right: 1.5%;
 }
 
 .imageFile {
