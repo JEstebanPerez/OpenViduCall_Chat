@@ -224,10 +224,9 @@ body {
   resize: none;
   box-sizing: border-box;
   height: auto;
-  width: 200px;
   min-height: 41px;
   max-height: 97px;
-  width: 100%;
+  width: 80%;
   @include themify($themes) {
     border: 1px solid themed('medium-color');
   }
@@ -250,7 +249,7 @@ body {
 .sendButton{
   width:auto;
   margin-left: 1%;
-  margin-top: 2.2%;
+  margin-top: 1.7%;
   position:absolute;
 }
 
@@ -268,11 +267,6 @@ body {
   }
 }
 
-.clipButton:hover, .emoji-mart--button--dimensions:hover {
-  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
-  transform: scale(1);
-  animation: pulse 2s infinite;
-}
 
 .form--send-message {
   width: 60%;
@@ -304,14 +298,12 @@ body {
 
 .leftButtonClip {
   width: 4%;
-  
   position:relative;
   margin-left: 1%;
-  margin-right: 2%; 
 }
 
 .rightTextArea {
-  width: 75%;
+  width: 60%;
   float: left;
   margin-left: 10px;
 }
@@ -319,8 +311,7 @@ body {
 .midEmojiButton {
   width: 4%;
   position:relative;
-  margin-left: 2%;
-  margin-right: 1.5%;
+  margin-left: 1%;
 }
 
 .imageFile {
