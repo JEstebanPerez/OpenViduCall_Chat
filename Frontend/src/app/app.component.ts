@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Subscription, lastValueFrom } from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Socket} from "ngx-socket-io";
 import { Session,  SignalOptions  } from "openvidu-browser";
 import * as $ from "jquery";
 
@@ -14,14 +15,15 @@ import { ParticipantAbstractModel, ParticipantService, Signal, TokenModel } from
 	styleUrls: ['./app.scss',
 				'./assets/customizable-chat-chatbox.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnChanges {
 
 	APPLICATION_SERVER_URL = 'http://localhost:5000/';
 
 	sessionId = "panel-directive-example";
 	tokens!: TokenModel;
-	messages: message[] = [];
+	messages: Message[] = [];
 	user?:string;
+	@Input() socket: Socket;
 
 	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, public messageService: MessageService) { }
 
@@ -94,6 +96,10 @@ export class AppComponent implements OnInit {
 	public isEmojiPickerVisible: boolean= true;
   
 
+	ngOnChanges(changes: SimpleChanges): void {
+		console.log("JJJJJJJJJJJJJJJJJJJJ "+changes);
+	}
+
 
 	openDialog() {
 		const dialogRef = this.dialog.open(FileDialogContent);
@@ -129,12 +135,16 @@ export class AppComponent implements OnInit {
 	  
 
 	  onSubmit(message: String) {
-		let data ={sessionName: this.sessionId, message: message, sender: this.user!};
+		/*let data ={sessionName: this.sessionId, message: message, sender: this.user!};
 		this.messageService.createMessage(data).subscribe(
 			message => { this.textArea="", this.messages.push(message)
 			} ,
 			error => console.error(error)
-		)
+		)*/
+
+		const newMessage= new Message(this.sessionId, message, this.user!, "texto");
+
+		this.messageService.sendMessage(this.socket,newMessage);
 		
 
 	  }
@@ -150,7 +160,7 @@ import {Subject} from "rxjs";
 import { SessionService } from "./services/session.service";
 import { session } from "./models/session.model";
 import { MessageService } from "./services/message.service";
-import { message } from "./models/message.model";
+import { Message } from "./models/message.model";
 
 @Component({
   selector: 'cc-customizable-chat-chatbox-file-dialog',

@@ -4,9 +4,13 @@ import {Model} from "mongoose";
 import {Session} from "../../Interfaces/session.interface";
 import {CreateSessionDto} from "../../DTOs/create-session-dto";
 
+import {Server} from 'socket.io'
+
 @Injectable()
 export class SessionService {
     constructor(@InjectModel('Session') private readonly sessionModel: Model<Session>) {}
+
+    public socket: Server = null;
 
     private logger: Logger = new Logger('SessionService');
 

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import { message } from '../models/message.model';
+import { Message } from '../models/message.model';
 import { map } from 'rxjs/operators';
+import { Socket } from 'ngx-socket-io';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class MessageService {
 
     createMessage(data:{sessionName:String, message:String, sender:String}){
         return this.httpClient.post(this.Api_url+"api/message",data).pipe(
-            map(response => response as message)
+            map(response => response as Message)
         )
 
     }
@@ -26,7 +27,12 @@ export class MessageService {
           params = params.append('sessionName', sessionName);
         }
         return this.httpClient.get(this.Api_url + 'api/message', { params }).pipe(
-          map(response => response as message[])
+          map(response => response as Message[])
         );
       }
+
+
+    public sendMessage(socket:Socket, message: Message) {
+      socket.emit("api/message", message);
+    }
 }

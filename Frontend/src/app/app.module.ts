@@ -12,12 +12,14 @@ import {MatCardModule} from "@angular/material/card";
 import {MatListModule} from "@angular/material/list";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
+import {SocketIoModule, SocketIoConfig} from "ngx-socket-io";
 
 import {FormsModule} from "@angular/forms";
 
 const config: OpenViduAngularConfig = {
   production: environment.production
 };
+const configSocket: SocketIoConfig = { url: environment.API_URL, options:{}};
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ const config: OpenViduAngularConfig = {
     MatListModule,
     MatDialogModule,
     MatButtonModule,
-    OpenViduAngularModule.forRoot(config)
+    OpenViduAngularModule.forRoot(config),
+    SocketIoModule.forRoot(configSocket)
 
   ],
   providers: [],
