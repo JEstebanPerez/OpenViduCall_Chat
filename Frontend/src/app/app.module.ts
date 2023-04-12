@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
+import { FileDialogContent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { OpenViduAngularConfig, OpenViduAngularModule } from 'openvidu-angular';
@@ -13,6 +14,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {SocketIoModule, SocketIoConfig} from "ngx-socket-io";
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 import {FormsModule} from "@angular/forms";
 
@@ -23,6 +25,7 @@ const configSocket: SocketIoConfig = { url: environment.API_URL, options:{}};
 
 @NgModule({
   declarations: [
+    FileDialogContent,
     AppComponent
   ],
   imports: [
@@ -34,6 +37,7 @@ const configSocket: SocketIoConfig = { url: environment.API_URL, options:{}};
     MatListModule,
     MatDialogModule,
     MatButtonModule,
+    NgxDropzoneModule,
     OpenViduAngularModule.forRoot(config),
     SocketIoModule.forRoot(configSocket)
 

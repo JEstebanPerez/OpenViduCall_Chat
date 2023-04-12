@@ -1,6 +1,6 @@
 import {Injectable, Logger} from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import {Model, ObjectId} from "mongoose";
 import {Message} from "../../Interfaces/message.interface";
 import {CreateMessageDto} from "../../DTOs/create-message-dto";
 
@@ -18,6 +18,15 @@ export class MessageService {
         return this.messageModel.find();
     }
 
+
+    async saveMessage(message:CreateMessageDto){
+        let newMessage = new this.messageModel(message);
+        return newMessage.save();
+    }
+
+    async getFile(fileId:ObjectId){
+        return this.messageModel.findOne({_id:fileId});
+    }
 
     async createMessage( sessionName: String, message: String, sender: String): Promise<Message>{
         let newMessage = new this.messageModel();

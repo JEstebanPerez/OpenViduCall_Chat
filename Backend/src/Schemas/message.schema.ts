@@ -5,5 +5,6 @@ export const MessageSchema = new mongoose.Schema({
     sender: String,
     message: String,
     type: String,
-    creationDate: Date
+    creationDate: Date,
+    buffer:Buffer
 });

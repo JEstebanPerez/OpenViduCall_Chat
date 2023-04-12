@@ -23,7 +23,6 @@ export class AppComponent implements OnInit, OnChanges {
 	tokens!: TokenModel;
 	messages: Message[] = [];
 	user?:string;
-	@Input() socket: Socket;
 
 	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, public messageService: MessageService) { }
 
@@ -107,16 +106,16 @@ export class AppComponent implements OnInit, OnChanges {
 		  data => {
 			this.files = data;
 			for (let i = 0; i < this.files.length; i++) {
-			  const formData: FormData = new FormData();
-			  formData.append('file', this.files[i], this.files[i].name);
-			  /*
-			  this.chatboxService.sendFiles(this.listUrls[0], formData).subscribe(
-				e => {
-				  if (e != null) {
-					this.chatboxService.fileSentMessage(this.socket, this.listUrls[3], e.sender, e._id, e.chatId);
-				  }
-				}
-			  )*/
+				const formData: FormData = new FormData();
+				formData.append('file', this.files[i], this.files[i].name);
+				formData.append('sender', this.user!);
+				formData.append('sessionName', this.sessionId);
+
+			  	this.messageService.sendFile(formData).subscribe(
+				message => { this.textArea="", this.messages.push(message)
+				} ,
+				error => console.error(error)
+				)
 			}
 		  }
 		)
@@ -135,16 +134,16 @@ export class AppComponent implements OnInit, OnChanges {
 	  
 
 	  onSubmit(message: String) {
-		/*let data ={sessionName: this.sessionId, message: message, sender: this.user!};
+		let data ={sessionName: this.sessionId, message: message, sender: this.user!};
 		this.messageService.createMessage(data).subscribe(
 			message => { this.textArea="", this.messages.push(message)
 			} ,
 			error => console.error(error)
-		)*/
-
+		)
+		/*
 		const newMessage= new Message(this.sessionId, message, this.user!, "texto");
 
-		this.messageService.sendMessage(this.socket,newMessage);
+		this.messageService.sendMessage(this.socket,newMessage);*/
 		
 
 	  }
@@ -164,7 +163,7 @@ import { Message } from "./models/message.model";
 
 @Component({
   selector: 'cc-customizable-chat-chatbox-file-dialog',
-  template: './file-dialog-content.component.html',
+  templateUrl: "./file-dialog-content.component.html"
 })
 
 export class FileDialogContent {

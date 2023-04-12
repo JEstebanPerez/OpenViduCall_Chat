@@ -10,26 +10,33 @@ import { Socket } from 'ngx-socket-io';
 })
 export class MessageService {
 
-    private Api_url = environment.API_URL;
+  private Api_url = environment.API_URL;
 
-    constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-    createMessage(data:{sessionName:String, message:String, sender:String}){
-        return this.httpClient.post(this.Api_url+"api/message",data).pipe(
-            map(response => response as Message)
-        )
+  createMessage(data:{sessionName:String, message:String, sender:String}){
+      return this.httpClient.post(this.Api_url+"api/message",data).pipe(
+          map(response => response as Message)
+      )
 
+  }
+
+  getMessage(sessionName?: string) {
+      let params = new HttpParams();
+      if (sessionName) {
+        params = params.append('sessionName', sessionName);
+      }
+      return this.httpClient.get(this.Api_url + 'api/message', { params }).pipe(
+        map(response => response as Message[])
+      );
     }
 
-    getMessage(sessionName?: string) {
-        let params = new HttpParams();
-        if (sessionName) {
-          params = params.append('sessionName', sessionName);
-        }
-        return this.httpClient.get(this.Api_url + 'api/message', { params }).pipe(
-          map(response => response as Message[])
-        );
-      }
+      
+	sendFile(data: any) {
+		return this.httpClient.post(this.Api_url+"api/files",data).pipe(
+      map(response => response as Message)
+  )
+	}
 
 
     public sendMessage(socket:Socket, message: Message) {
