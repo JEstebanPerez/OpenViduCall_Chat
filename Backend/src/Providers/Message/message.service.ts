@@ -28,11 +28,12 @@ export class MessageService {
         return this.messageModel.findOne({_id:fileId});
     }
 
-    async createMessage( sessionName: String, message: String, sender: String): Promise<Message>{
+    async createMessage( sessionName: String, message: String, sender: String, type: String): Promise<Message>{
         let newMessage = new this.messageModel();
         newMessage.sessionName=sessionName;
         newMessage.message=message;
         newMessage.sender= sender;
+        newMessage.type=type;
         newMessage.creationDate= new Date();
         return newMessage.save();
     }

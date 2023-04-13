@@ -181,12 +181,14 @@ body {
 
 .leftItem {
   width: 20%;
+
   background-color:coral;
   @include themify($themes) {
     background: themed('message-left-fill');
     border: 2px solid themed('message-left-border')
   }
 
+  word-break: break-all;
 }
 
 .rightCard {
@@ -205,6 +207,9 @@ body {
 
 .rightItem {
   background-color: $light-medium-blue;
+  width: 20%;
+  
+  margin-bottom: 15%;
   float: right;
   @include themify($themes) {
     background: themed('message-right-fill');
@@ -325,11 +330,8 @@ body {
 }
 
 .chat-messages--file-image--details {
-  width: 30%;
-  height: 30%;
-  position: relative;
-  display: flex;
-  text-align: center;
+  width: 60%;
+  height: 50%;
   left: 35%;
   cursor: pointer;
 }

@@ -7,21 +7,65 @@
 
 					<div class="upper">
 						<div *ngFor="let msg of messages" >
-							<br>
 							<mat-card *ngIf="msg.sender == user" class="rightItem">
+								<mat-card-title
+								class="chat-messages--text--color chat-messages--text-title--dimension">{{msg.sender}}</mat-card-title>
 								<!-- This is a normal message-->
 								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+								*ngIf="recogniseFileType(msg.type) == 0"
 												[innerHTML]="msg.message"></mat-card-subtitle>
+
+							<!--<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+							style="text-align: center"
+							*ngIf="recogniseFileType(msg.type) == 1">
+							   <img [src]="msg.image" (click)="maximizeImage(msg.image);" class="imageFile" alt="">
+							   <br>
+							   {{msg.message}}
+							 </mat-card-subtitle>-->
+							 <!-- This is a file message-->
+								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+												*ngIf="recogniseFileType(msg.type) == 2">
+									<img src="assets/FileNight1.png" class="chat-messages--file-image--details" (click)="openFile(msg);" alt="File">
+									<br>
+									{{msg.message}}
+								</mat-card-subtitle>	
 							</mat-card>
-							<br>
-							<br>
+							
+							<div *ngIf="msg.sender == user">
+								<br>
+								<br>
+								<br>
+								<br>
+							</div>
 							<mat-card *ngIf="msg.sender != user" class="leftItem">
 								<mat-card-title
 								class="chat-messages--text--color chat-messages--text-title--dimension">{{msg.sender}}</mat-card-title>
 								<!-- This is a normal message-->
 								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+								*ngIf="recogniseFileType(msg.type) == 0"
 												[innerHTML]="msg.message"></mat-card-subtitle>
+
+								<!--<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+								style="text-align: center"
+								*ngIf="recogniseFileType(msg.type) == 1">
+									<img [src]="msg.image" (click)="maximizeImage(msg.image);" class="imageFile" alt="">
+									<br>
+									{{msg.message}}
+								</mat-card-subtitle>-->
+								<!-- This is a file message-->
+								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+													*ngIf="recogniseFileType(msg.type) == 2">
+									<img src="assets/FileNight1.png"
+											class="chat-messages--file-image--details"
+											(click)="openFile(msg);" alt="File">
+									<br>
+									{{msg.message}}
+								</mat-card-subtitle>
 							</mat-card>
+							<br>
+							<br>
+							<br>
+							<br>
 						</div>
 					</div>
 					<div class="lower">

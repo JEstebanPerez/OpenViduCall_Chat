@@ -110,7 +110,6 @@ export class AppComponent implements OnInit, OnChanges {
 				formData.append('file', this.files[i], this.files[i].name);
 				formData.append('sender', this.user!);
 				formData.append('sessionName', this.sessionId);
-
 			  	this.messageService.sendFile(formData).subscribe(
 				message => { this.textArea="", this.messages.push(message)
 				} ,
@@ -119,6 +118,30 @@ export class AppComponent implements OnInit, OnChanges {
 			}
 		  }
 		)
+	  }
+
+	  recogniseFileType(type: String) {
+		if (type == "message") {
+		  return 0;
+		} else if (type == "image/png" || type == "image/jpg" || type == "image/jpeg") {
+		  return 1;
+		} else {
+		  return 2;
+		}
+	  }
+
+	  openFile(response: any) {
+		let checkCompressedImage = response.type.split(";");
+		let blob;
+		console.log(checkCompressedImage);
+		if(checkCompressedImage[0] == "compressed"){
+		  blob = new Blob([new Uint8Array(response.buffer.data)], {type: checkCompressedImage[1]});
+		}else{
+		  blob = new Blob([new Uint8Array(response.buffer.data)], {type: response.type});
+		}
+		const exportUrl = URL.createObjectURL(blob);
+		window.open(exportUrl);
+		URL.revokeObjectURL(exportUrl);
 	  }
 
 	  startChat(){
@@ -134,7 +157,7 @@ export class AppComponent implements OnInit, OnChanges {
 	  
 
 	  onSubmit(message: String) {
-		let data ={sessionName: this.sessionId, message: message, sender: this.user!};
+		let data ={sessionName: this.sessionId, message: message, sender: this.user!, type:"message"};
 		this.messageService.createMessage(data).subscribe(
 			message => { this.textArea="", this.messages.push(message)
 			} ,

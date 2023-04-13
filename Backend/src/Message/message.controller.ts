@@ -11,7 +11,7 @@ export class MessageController {
 
     @Post('message')
     async createMessage(@Body('sessionName') sessionName: String, @Body('message') message: String, @Body('sender') sender: String ,@Body('type') type: String){
-        return await this.messageService.createMessage(sessionName,message,sender);
+        return await this.messageService.createMessage(sessionName,message,sender,type);
     }
 
     @Get('message')
