@@ -15,14 +15,17 @@ import { ParticipantAbstractModel, ParticipantService, Signal, TokenModel } from
 	styleUrls: ['./app.scss',
 				'./assets/customizable-chat-chatbox.scss']
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
 
 	APPLICATION_SERVER_URL = 'http://localhost:5000/';
 
 	sessionId = "panel-directive-example";
 	tokens!: TokenModel;
+
 	messages: Message[] = [];
 	user?:string;
+
+	session!: Session;
 
 	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, public messageService: MessageService) { }
 
@@ -55,6 +58,18 @@ export class AppComponent implements OnInit, OnChanges {
 		
 		return await this.createToken(sessionId);
 	}
+
+	onSessionCreated(session: Session) {
+		this.session = session;
+		this.session.on(`signal:${Signal.CHAT}`, (event: any) => {
+			const msg = JSON.parse(event.data);
+			if(msg.sender != this.user){
+				this.messages.push(msg);
+			}
+		});
+	}
+
+
 	createSession(sessionId: string): Promise<string> {
 		let data ={sessionName: sessionId};
 		this.sessionService.createSession(data).subscribe(
@@ -66,10 +81,6 @@ export class AppComponent implements OnInit, OnChanges {
 			p => this.messages = p,
 			error => console.error(error)
 		)
-		
-		
-		
-
 		
 		return lastValueFrom(this.httpClient.post(
 			this.APPLICATION_SERVER_URL + 'api/sessions',
@@ -93,11 +104,6 @@ export class AppComponent implements OnInit, OnChanges {
 	
 	public textArea = "";
 	public isEmojiPickerVisible: boolean= true;
-  
-
-	ngOnChanges(changes: SimpleChanges): void {
-		console.log("JJJJJJJJJJJJJJJJJJJJ "+changes);
-	}
 
 
 	openDialog() {
@@ -115,6 +121,13 @@ export class AppComponent implements OnInit, OnChanges {
 				} ,
 				error => console.error(error)
 				)
+
+				const signalOptions: SignalOptions = {
+					data: JSON.stringify(formData),
+					type: Signal.CHAT,
+					to: undefined,
+				};
+				this.session.signal(signalOptions);
 			}
 		  }
 		)
@@ -156,17 +169,20 @@ export class AppComponent implements OnInit, OnChanges {
 	  }
 	  
 
-	  onSubmit(message: String) {
+	  onSubmit(message: String): void {
 		let data ={sessionName: this.sessionId, message: message, sender: this.user!, type:"message"};
 		this.messageService.createMessage(data).subscribe(
 			message => { this.textArea="", this.messages.push(message)
 			} ,
 			error => console.error(error)
 		)
-		/*
-		const newMessage= new Message(this.sessionId, message, this.user!, "texto");
 
-		this.messageService.sendMessage(this.socket,newMessage);*/
+		const signalOptions: SignalOptions = {
+			data: JSON.stringify({ sessionName: this.sessionId, message: message, sender: this.user!, type:"message" }),
+			type: Signal.CHAT,
+			to: undefined,
+		};
+		this.session.signal(signalOptions);
 		
 
 	  }

@@ -1,6 +1,6 @@
 
 
-<ov-videoconference (click)="startChat()" [tokens]="tokens">
+<ov-videoconference (click)="startChat()" [tokens]="tokens" (onSessionCreated)="onSessionCreated($event)">
 	
 			<ov-panel *ovPanel>
 				<div *ovChatPanel  >
