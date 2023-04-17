@@ -39,7 +39,9 @@ export class MessageService {
 	}
 
 
-    public sendMessage(socket:Socket, message: Message) {
-      socket.emit("api/message", message);
-    }
+  public getFile(_id: string) {
+      return this.httpClient.get(this.Api_url + 'api/files/'+_id).pipe(
+        map(response => response as Message)
+      );
+  }
 }

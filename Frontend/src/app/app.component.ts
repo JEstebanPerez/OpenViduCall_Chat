@@ -108,6 +108,7 @@ export class AppComponent implements OnInit {
 
 	openDialog() {
 		const dialogRef = this.dialog.open(FileDialogContent);
+		let signalOptions: SignalOptions;
 		dialogRef.componentInstance.filesChange.subscribe(
 		  data => {
 			this.files = data;
@@ -117,17 +118,18 @@ export class AppComponent implements OnInit {
 				formData.append('sender', this.user!);
 				formData.append('sessionName', this.sessionId);
 			  	this.messageService.sendFile(formData).subscribe(
-				message => { this.textArea="", this.messages.push(message)
+				message => { this.textArea="", this.messages.push(message),
+				signalOptions = {
+					data: JSON.stringify(message),
+					type: Signal.CHAT,
+					to: undefined,
+				},
+				this.session.signal(signalOptions);
 				} ,
 				error => console.error(error)
 				)
 
-				const signalOptions: SignalOptions = {
-					data: JSON.stringify(formData),
-					type: Signal.CHAT,
-					to: undefined,
-				};
-				this.session.signal(signalOptions);
+				
 			}
 		  }
 		)
