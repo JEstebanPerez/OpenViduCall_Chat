@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
 	user?:string;
 
 	session!: Session;
+	cookie: string="";
 
 	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, public messageService: MessageService) { }
 
@@ -35,6 +36,15 @@ export class AppComponent implements OnInit {
 			webcam: await this.getToken(),
 			screen: await this.getToken(),
 		};
+
+		this.cookie =this.getCookie("id");
+		if(this.cookie==""){
+			this.setCookie("id",Math.floor(Math.random() * 100000).toString(),2)
+			this.cookie =this.getCookie("id");
+		}
+
+		
+
 	}
 
 	/**
@@ -103,7 +113,7 @@ export class AppComponent implements OnInit {
 	files: File[] = [];
 	
 	public textArea = "";
-	public isEmojiPickerVisible: boolean= true;
+	public isEmojiPickerVisible: boolean= false;
 
 
 	openDialog() {
@@ -159,6 +169,14 @@ export class AppComponent implements OnInit {
 		URL.revokeObjectURL(exportUrl);
 	  }
 
+
+	  	// Event that opens an image "full screen"
+		maximizeImage(image: any) {
+			this.dialog.open(ImageDialogContent, {
+			data: {image: image},
+			});
+		}
+
 	  startChat(){
 		var nickname = document.getElementById("nickname");
 		this.user = nickname!.textContent?.toString();
@@ -172,10 +190,12 @@ export class AppComponent implements OnInit {
 	  
 
 	  onSubmit(message: String): void {
-		let data ={sessionName: this.sessionId, message: message, sender: this.user!, type:"message"};
-		this.messageService.createMessage(data).subscribe(
-			message => { this.textArea="", this.messages.push(message)
-			} ,
+
+		if(message!=""){
+			let data ={sessionName: this.sessionId, message: message, sender: this.user!, type:"message"};
+			this.messageService.createMessage(data).subscribe(
+				message => { this.textArea="", this.messages.push(message)
+							} ,
 			error => console.error(error)
 		)
 
@@ -186,13 +206,37 @@ export class AppComponent implements OnInit {
 		};
 		this.session.signal(signalOptions);
 		
-
+		}
+		
 	  }
 
 	  addEmoji(event: any) {
 		this.textArea = `${this.textArea}${event.emoji.native}`;
 		this.isEmojiPickerVisible = false;
 	  }
+
+	setCookie(name: string, value: string, days: number) {
+		let expires = '';
+		console.log("sssssssssss   "+value);
+		if (days) {
+		  const date = new Date();
+		  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+		  expires = '; expires=' + date.toUTCString();
+		}
+		document.cookie = name + '=' + value + expires + '; path=/';
+	  }
+
+	  getCookie(name: string) {
+		const cookies = document.cookie.split(';');
+		for (let i = 0; i < cookies.length; i++) {
+		  const cookie = cookies[i].trim();
+		  if (cookie.startsWith(name + '=')) {
+			return cookie.substring(name.length + 1);
+		  }
+		}
+		return "";
+	  }
+	  
 	
 }
 
@@ -201,6 +245,7 @@ import { SessionService } from "./services/session.service";
 import { session } from "./models/session.model";
 import { MessageService } from "./services/message.service";
 import { Message } from "./models/message.model";
+import { ImageDialogContent } from "./image-dialog-content/image-dialog-content.component";
 
 @Component({
   selector: 'cc-customizable-chat-chatbox-file-dialog',

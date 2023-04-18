@@ -346,7 +346,10 @@ body {
 
 .emoji-mart--card--dimensions {
   position: fixed;
-  bottom: 8%;
+  bottom: 14%;
+  height: 15%;
+  width: 30%;
+  overflow-y: scroll;
 }
 
 .example-header-image {

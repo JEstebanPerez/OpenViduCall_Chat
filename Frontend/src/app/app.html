@@ -77,6 +77,10 @@
 							<button mat-icon-button class="clipButton" (click)="openDialog()" aria-label="Drop files">
 							  <img  class="imageButtonBottomPart" src="assets/AttachNight1.png" alt="">
 							</button>
+							<br>
+							<emoji-mart class="emoji-mart--card--dimensions" [sheetSize]="64"
+								*ngIf="this.isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"
+								title="Choose your emoji"></emoji-mart>
 						  </div>
 						  <div class="midEmojiButton">
 							<button class="emoji-mart--button--dimensions" (click)="isEmojiPickerVisible = !isEmojiPickerVisible;">😀
