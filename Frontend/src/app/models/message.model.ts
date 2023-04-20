@@ -5,14 +5,16 @@ export class Message{
     sessionName: String | undefined;
     sender: String;
     message: String;
+    image: String;
     type: String;
     creationDate: Date;
 
-    constructor (_id:String, sessionName: String, sender: String, message: String, type:String){
+    constructor (_id:String, sessionName: String, sender: String, message: String, type:String, image:String){
         this._id= _id;
         this.sessionName= sessionName;
         this.sender = sender;
         this.message=message;
+        this.image=image;
         this.type= type;
         this.creationDate= new Date();
 

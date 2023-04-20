@@ -15,13 +15,13 @@
 								*ngIf="recogniseFileType(msg.type) == 0"
 												[innerHTML]="msg.message"></mat-card-subtitle>
 
-							<!--<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+							<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
 							style="text-align: center"
 							*ngIf="recogniseFileType(msg.type) == 1">
 							   <img [src]="msg.image" (click)="maximizeImage(msg.image);" class="imageFile" alt="">
 							   <br>
 							   {{msg.message}}
-							 </mat-card-subtitle>-->
+							 </mat-card-subtitle>
 							 <!-- This is a file message-->
 								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
 												*ngIf="recogniseFileType(msg.type) == 2">
@@ -48,13 +48,13 @@
 								*ngIf="recogniseFileType(msg.type) == 0"
 												[innerHTML]="msg.message"></mat-card-subtitle>
 
-								<!--<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
 								style="text-align: center"
 								*ngIf="recogniseFileType(msg.type) == 1">
 									<img [src]="msg.image" (click)="maximizeImage(msg.image);" class="imageFile" alt="">
 									<br>
 									{{msg.message}}
-								</mat-card-subtitle>-->
+								</mat-card-subtitle>
 								<!-- This is a file message-->
 								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
 													*ngIf="recogniseFileType(msg.type) == 2">

@@ -88,7 +88,13 @@ export class AppComponent implements OnInit {
 		)
 
 		this.messageService.getMessage(this.sessionId).subscribe(
-			p => this.messages = p,
+			p =>{ p.forEach(m => {
+				if(m.type == "image/png" || m.type == "image/jpg" || m.type == "image/jpeg"){
+					this.formatImage(m);
+				}
+				this.messages.push(m)
+			})
+			},
 			error => console.error(error)
 		)
 		
@@ -128,13 +134,17 @@ export class AppComponent implements OnInit {
 				formData.append('sender', this.user!);
 				formData.append('sessionName', this.sessionId);
 			  	this.messageService.sendFile(formData).subscribe(
-				message => { this.textArea="", this.messages.push(message),
-				signalOptions = {
-					data: JSON.stringify(message),
-					type: Signal.CHAT,
-					to: undefined,
-				},
-				this.session.signal(signalOptions);
+				message => { this.textArea="";
+					if(message.type == "image/png" || message.type == "image/jpg" || message.type == "image/jpeg"){
+						this.formatImage(message);
+					};
+					this.messages.push(message);
+					signalOptions = {
+						data: JSON.stringify(message),
+						type: Signal.CHAT,
+						to: undefined,
+					};
+					this.session.signal(signalOptions);
 				} ,
 				error => console.error(error)
 				)
@@ -177,15 +187,27 @@ export class AppComponent implements OnInit {
 			});
 		}
 
+		// Formats images
+		formatImage(img: any) {
+			if (img.type == "image/jpeg" || img.type == "image/jpg" || img.type == "image/png") {
+			  const base64String = btoa(new Uint8Array(img.buffer.data).reduce((data, byte) => {
+				return data + String.fromCharCode(byte);
+			  }, ''));
+			  img.image = this.domSanitizer.bypassSecurityTrustUrl('data:' + img.type + ';base64, ' + base64String);
+			} else {
+			  img.image = null;
+			}
+		  }
+
 	  startChat(){
 		var nickname = document.getElementById("nickname");
 		this.user = nickname!.textContent?.toString();
 		document.getElementById("nickname-container")!.style.pointerEvents = "none"
 
-		//Para focusear siempre el ultimo mensaje en el chat
+		/*Para focusear siempre el ultimo mensaje en el chat
 		let upperElement = document.querySelector(".upper") as HTMLElement;
 		let lastChild = upperElement.lastElementChild as HTMLElement;
-		lastChild.scrollIntoView();
+		lastChild.scrollIntoView();*/
 	  }
 	  
 
