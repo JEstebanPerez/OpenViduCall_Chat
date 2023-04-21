@@ -25,10 +25,16 @@ export class AppComponent implements OnInit {
 	messages: Message[] = [];
 	user?:string;
 
+	nickname: boolean= false;
+	
+
+	localParticipant!: ParticipantAbstractModel;
+	localParticipantSubs!: Subscription;
+
 	session!: Session;
 	cookie: string="";
 
-	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, public messageService: MessageService) { }
+	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, public messageService: MessageService, private participantService: ParticipantService) { }
 
 
 	async ngOnInit() {
@@ -37,6 +43,7 @@ export class AppComponent implements OnInit {
 			screen: await this.getToken(),
 		};
 
+		//Creador de Cookies
 		this.cookie =this.getCookie("id");
 		if(this.cookie==""){
 			this.setCookie("id",Math.floor(Math.random() * 100000).toString(),2)
@@ -71,12 +78,32 @@ export class AppComponent implements OnInit {
 
 	onSessionCreated(session: Session) {
 		this.session = session;
+
+		
+		this.session.on(`signal:CambioNombre`, (event: any) => {
+			const e = JSON.parse(event.data);
+			this.messages.forEach(m=>{
+				if(m.cookie== e.cookie){
+					m.sender= e.nickname;
+				}
+			})
+
+		});
+
 		this.session.on(`signal:${Signal.CHAT}`, (event: any) => {
 			const msg = JSON.parse(event.data);
 			if(msg.sender != this.user){
 				this.messages.push(msg);
 			}
 		});
+
+		//Notifica todos los cambios de nombre
+		this.localParticipantSubs = this.participantService.localParticipantObs.subscribe((p) => {
+			this.localParticipant = p;
+			this.user=p.getNickname();
+			this.enviar();
+		});
+
 	}
 
 
@@ -86,6 +113,8 @@ export class AppComponent implements OnInit {
 			session => console.log("Create correctly"),
 			error => console.error(error)
 		)
+
+		this.messages= [];
 
 		this.messageService.getMessage(this.sessionId).subscribe(
 			p =>{ p.forEach(m => {
@@ -97,6 +126,7 @@ export class AppComponent implements OnInit {
 			},
 			error => console.error(error)
 		)
+
 		
 		return lastValueFrom(this.httpClient.post(
 			this.APPLICATION_SERVER_URL + 'api/sessions',
@@ -200,21 +230,45 @@ export class AppComponent implements OnInit {
 		  }
 
 	  startChat(){
-		var nickname = document.getElementById("nickname");
-		this.user = nickname!.textContent?.toString();
-		document.getElementById("nickname-container")!.style.pointerEvents = "none"
-
-		/*Para focusear siempre el ultimo mensaje en el chat
+		//Para focusear siempre el ultimo mensaje en el chat
 		let upperElement = document.querySelector(".upper") as HTMLElement;
 		let lastChild = upperElement.lastElementChild as HTMLElement;
-		lastChild.scrollIntoView();*/
+		lastChild.scrollIntoView();
+	  }
+
+
+	  //Cuando pulsa el boton "Join session" comprueba si el nombre que ha introducido en el nickname es el mismo que los mensajes
+	  joinSession(){
+		const inputElement = document.getElementById("mat-input-0") as HTMLInputElement;
+		const newNickName =inputElement.value;
+		this.messages.forEach(m=>{
+			if((m.cookie== this.cookie) && (m.sender != newNickName)){
+				m.sender= newNickName;
+			}
+		})
 	  }
 	  
+	  //Cada vez que se cambie de nombre el usuario enviara una peticion de update a la BBDD y una señal al resto de participantes
+	  enviar(){
+
+		let data ={cookie: this.cookie, sender: this.user! };
+		this.messageService.updateMessage(data).subscribe(
+			message => console.log("Éxito") ,
+		error => console.error(error)
+		)
+
+		const signalOptions: SignalOptions = {
+			data: JSON.stringify({ nickname: this.user, cookie:this.cookie}),
+			type: "CambioNombre",
+			to: undefined,
+		};
+		this.session.signal(signalOptions);
+	  }
 
 	  onSubmit(message: String): void {
 
 		if(message!=""){
-			let data ={sessionName: this.sessionId, message: message, sender: this.user!, type:"message"};
+			let data ={sessionName: this.sessionId, message: message, sender: this.user!, type:"message", cookie: this.cookie};
 			this.messageService.createMessage(data).subscribe(
 				message => { this.textArea="", this.messages.push(message)
 							} ,
@@ -222,7 +276,7 @@ export class AppComponent implements OnInit {
 		)
 
 		const signalOptions: SignalOptions = {
-			data: JSON.stringify({ sessionName: this.sessionId, message: message, sender: this.user!, type:"message" }),
+			data: JSON.stringify({ sessionName: this.sessionId, message: message, sender: this.user!, type:"message", cookie: this.cookie }),
 			type: Signal.CHAT,
 			to: undefined,
 		};

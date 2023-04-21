@@ -31,6 +31,12 @@ export class MessageService {
       );
     }
 
+  updateMessage(data:{cookie: String, sender: String}){
+    return this.httpClient.put(this.Api_url+"api/message",data).pipe(
+      map(response => response as Message[])
+  )
+  }
+
       
 	sendFile(data: any) {
 		return this.httpClient.post(this.Api_url+"api/files",data).pipe(

@@ -11,8 +11,8 @@ export class MessageController {
     private logger : Logger = new Logger('MessageController')
 
     @Post('message')
-    async createMessage(@Body('sessionName') sessionName: String, @Body('message') message: String, @Body('sender') sender: String ,@Body('type') type: String){
-        return await this.messageService.createMessage(sessionName,message,sender,type);
+    async createMessage(@Body('sessionName') sessionName: String, @Body('message') message: String, @Body('sender') sender: String ,@Body('type') type: String, @Body('cookie') cookie: String ){
+        return await this.messageService.createMessage(sessionName,message,sender,type,cookie);
     }
 
     @Get('message')
@@ -25,6 +25,10 @@ export class MessageController {
         
     }
 
+    @Put('message')
+    async updateMessage(@Body('cookie') cookie: String, @Body('sender') sender: String){
+        return await this.messageService.updateMessage(cookie,sender);
+    }
 
 
 }

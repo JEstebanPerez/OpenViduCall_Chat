@@ -19,7 +19,7 @@ export class FilesController {
     async uploadFile(@UploadedFile() file, @Body() body) {
         this.logger.log("Saving file...");
         console.log(file)
-        let message = new CreateMessageDto(file.originalname, new Date(), body.sender,body.sessionName, (file.size > 50000)? "compressed;" +file.mimetype : file.mimetype, file.buffer)
+        let message = new CreateMessageDto(file.originalname, new Date(), body.sender,body.sessionName, (file.size > 50000)? "compressed;" +file.mimetype : file.mimetype,  body.cookie, file.buffer)
         var data = await this.messageService.saveMessage(message);
         return data;
     }

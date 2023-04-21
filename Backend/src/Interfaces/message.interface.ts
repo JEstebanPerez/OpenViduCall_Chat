@@ -5,5 +5,7 @@ export interface Message extends Document{
     sender: String,
     message: String,
     type: String,
-    creationDate: Date
+    cookie: String,
+    creationDate: Date,
+    buffer: Buffer
 }

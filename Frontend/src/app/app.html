@@ -1,13 +1,13 @@
 
 
-<ov-videoconference (click)="startChat()" [tokens]="tokens" (onSessionCreated)="onSessionCreated($event)">
+<ov-videoconference [tokens]="tokens" (onSessionCreated)="onSessionCreated($event)" (click)="startChat()" (onJoinButtonClicked)="joinSession()" >
 	
 			<ov-panel *ovPanel>
 				<div *ovChatPanel  >
 
 					<div class="upper">
 						<div *ngFor="let msg of messages" >
-							<mat-card *ngIf="msg.sender == user" class="rightItem">
+							<mat-card *ngIf="msg.cookie == this.cookie" class="rightItem">
 								<mat-card-title
 								class="chat-messages--text--color chat-messages--text-title--dimension">{{msg.sender}}</mat-card-title>
 								<!-- This is a normal message-->
@@ -31,7 +31,7 @@
 								</mat-card-subtitle>	
 							</mat-card>
 							
-							<div *ngIf="msg.sender == user">
+							<div *ngIf="msg.cookie == this.cookie">
 								<br>
 								<br>
 								<br>
@@ -40,7 +40,7 @@
 								<br>
 								<br>
 							</div>
-							<mat-card *ngIf="msg.sender != user" class="leftItem">
+							<mat-card *ngIf="msg.cookie != this.cookie" class="leftItem">
 								<mat-card-title
 								class="chat-messages--text--color chat-messages--text-title--dimension">{{msg.sender}}</mat-card-title>
 								<!-- This is a normal message-->

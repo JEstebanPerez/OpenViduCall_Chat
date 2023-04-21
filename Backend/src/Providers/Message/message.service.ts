@@ -28,14 +28,19 @@ export class MessageService {
         return this.messageModel.findOne({_id:fileId});
     }
 
-    async createMessage( sessionName: String, message: String, sender: String, type: String): Promise<Message>{
+    async createMessage( sessionName: String, message: String, sender: String, type: String, cookie: String): Promise<Message>{
         let newMessage = new this.messageModel();
         newMessage.sessionName=sessionName;
         newMessage.message=message;
         newMessage.sender= sender;
         newMessage.type=type;
         newMessage.creationDate= new Date();
+        newMessage.cookie=cookie;
         return newMessage.save();
+    }
+
+    async updateMessage(cookie: String, sender: String){
+        this.messageModel.updateMany({cookie: cookie}, {$set: {sender: sender}}).exec();
     }
 
     /*async addMessage(sessionName: String, message: any, isPrivate:boolean) {
