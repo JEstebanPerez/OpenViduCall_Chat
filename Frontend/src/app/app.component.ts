@@ -92,9 +92,23 @@ export class AppComponent implements OnInit {
 
 		this.session.on(`signal:${Signal.CHAT}`, (event: any) => {
 			const msg = JSON.parse(event.data);
-			if(msg.sender != this.user){
+			if(msg.sender != this.user && msg.type=="message"){
 				this.messages.push(msg);
 			}
+		});
+
+		this.session.on(`signal:File`, (event: any) => {
+			const msg = JSON.parse(event.data);
+			this.messageService.getFile(msg.id).subscribe(f => {
+
+				if(f.message.cookie != this.cookie){
+					this.formatImage(f.message);
+					this.messages.push(f.message);
+				}
+			},
+			error => console.log(error))
+
+
 		});
 
 		//Notifica todos los cambios de nombre
@@ -163,15 +177,17 @@ export class AppComponent implements OnInit {
 				formData.append('file', this.files[i], this.files[i].name);
 				formData.append('sender', this.user!);
 				formData.append('sessionName', this.sessionId);
+				formData.append('cookie', this.cookie);
 			  	this.messageService.sendFile(formData).subscribe(
 				message => { this.textArea="";
 					if(message.type == "image/png" || message.type == "image/jpg" || message.type == "image/jpeg"){
 						this.formatImage(message);
 					};
 					this.messages.push(message);
-					signalOptions = {
-						data: JSON.stringify(message),
-						type: Signal.CHAT,
+
+					const signalOptions = {
+						data: JSON.stringify({id:message._id}),
+						type: "File",
 						to: undefined,
 					};
 					this.session.signal(signalOptions);
