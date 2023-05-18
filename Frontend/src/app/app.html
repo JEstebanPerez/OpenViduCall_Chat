@@ -15,15 +15,15 @@
 								*ngIf="recogniseFileType(msg.type) == 0"
 												[innerHTML]="msg.message"></mat-card-subtitle>
 
-							<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
-							style="text-align: center"
+							<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension text-file"
+							style=""
 							*ngIf="recogniseFileType(msg.type) == 1">
 							   <img [src]="msg.image" (click)="maximizeImage(msg.image);" class="imageFile" alt="">
 							   <br>
 							   {{msg.message}}
 							 </mat-card-subtitle>
 							 <!-- This is a file message-->
-								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension"
+								<mat-card-subtitle class="chat-messages--text--color chat-messages--text-subtitle--dimension text-file"
 												*ngIf="recogniseFileType(msg.type) == 2">
 									<img src="assets/FileNight1.png" class="chat-messages--file-image--details" (click)="openFile(msg);" alt="File">
 									<br>
@@ -38,8 +38,8 @@
 								<br>
 								<br>
 								<br>
-								<br>
 							</div>
+
 							<mat-card *ngIf="msg.cookie != this.cookie" class="leftItem">
 								<mat-card-title
 								class="chat-messages--text--color chat-messages--text-title--dimension">{{msg.sender}}</mat-card-title>

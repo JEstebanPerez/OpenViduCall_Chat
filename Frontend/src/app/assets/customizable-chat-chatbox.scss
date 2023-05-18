@@ -157,9 +157,7 @@ body {
   overflow-y: scroll;
 }
 
-.mat-card-title {
-  font-size: medium;
-}
+
 
 .mat-toolbar.mat-warn {
 
@@ -180,15 +178,13 @@ body {
 
 
 .leftItem {
-  width: 20%;
+  width: 40%;
 
   background-color:coral;
   @include themify($themes) {
     background: themed('message-left-fill');
     border: 2px solid themed('message-left-border')
   }
-
-  word-break: break-all;
 }
 
 .rightCard {
@@ -198,6 +194,7 @@ body {
   margin-bottom: 1%;
   right: 0;
   max-width: 90% !important;
+  
   word-break: break-all;
 }
 
@@ -207,15 +204,15 @@ body {
 
 .rightItem {
   background-color: $light-medium-blue;
-  width: 20%;
-  
+  width: 40%;
+  height: 4%;
   margin-bottom: 15%;
   float: right;
   @include themify($themes) {
     background: themed('message-right-fill');
     border: 2px solid themed('message-right-border');
   }
-  word-break: break-all;
+  text-align: right;
 }
 
 
@@ -341,7 +338,14 @@ body {
 }
 
 .chat-messages--text-subtitle--dimension {
-  font-size: large;
+  font-size: 19px;
+}
+
+.text-file{
+  white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
 }
 
 .emoji-mart--card--dimensions {

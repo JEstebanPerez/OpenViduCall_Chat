@@ -37,22 +37,28 @@ export class AppComponent implements OnInit {
 	constructor(private httpClient: HttpClient, public dialog: MatDialog, private domSanitizer: DomSanitizer, public sessionService: SessionService, public messageService: MessageService, private participantService: ParticipantService) { }
 
 
-	async ngOnInit() {
-		this.tokens = {
-			webcam: await this.getToken(),
-			screen: await this.getToken(),
-		};
-
+	
+	checkCookie(){
 		//Creador de Cookies
 		this.cookie =this.getCookie("id");
 		if(this.cookie==""){
 			this.setCookie("id",Math.floor(Math.random() * 100000).toString(),2)
 			this.cookie =this.getCookie("id");
 		}
+	}
 
+	async ngOnInit() {
+		this.tokens = {
+			webcam: await this.getToken(),
+			screen: await this.getToken(),
+		};
+
+		
+		this.checkCookie();
 		
 
 	}
+
 
 	/**
 	 * --------------------------------------------
