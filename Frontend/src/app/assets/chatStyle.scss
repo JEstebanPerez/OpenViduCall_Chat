@@ -180,7 +180,7 @@ body {
 .leftItem {
   width: 40%;
 
-  background-color:coral;
+  background-color:#feafc6;
   @include themify($themes) {
     background: themed('message-left-fill');
     border: 2px solid themed('message-left-border')
@@ -203,10 +203,9 @@ body {
 }
 
 .rightItem {
-  background-color: $light-medium-blue;
+  background-color: #95BDFF;
   width: 40%;
   height: 4%;
-  margin-bottom: 15%;
   float: right;
   @include themify($themes) {
     background: themed('message-right-fill');
@@ -333,12 +332,18 @@ body {
   cursor: pointer;
 }
 
+.espacio{
+  margin-top: 20;
+}
+
 .chat-messages--text-title--dimension {
-  font-size: larger;
+  font-size: 20px;
+  color: black;
 }
 
 .chat-messages--text-subtitle--dimension {
-  font-size: 19px;
+  font-size: larger;
+  color:black;
 }
 
 .text-file{

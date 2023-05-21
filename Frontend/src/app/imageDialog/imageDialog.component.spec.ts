@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageDialogContent } from './image-dialog-content.component';
+import { ImageDialogContent } from './imageDialog.component';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 
 describe('ImageDialogComponent', () => {

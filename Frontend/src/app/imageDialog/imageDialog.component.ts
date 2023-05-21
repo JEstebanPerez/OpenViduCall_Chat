@@ -4,8 +4,8 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 // @dynamic
 @Component({
   selector: 'cc-customizable-chat-chatbox-image-dialog',
-  templateUrl: './image-dialog-content.component.html',
-  styleUrls: ['../assets/customizable-chat-chatbox.scss']
+  templateUrl: './imageDialog.component.html',
+  styleUrls: ['../assets/chatStyle.scss']
 })
 export class ImageDialogContent implements OnInit {
 

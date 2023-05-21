@@ -15,7 +15,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {SocketIoModule, SocketIoConfig} from "ngx-socket-io";
 import {NgxDropzoneModule} from "ngx-dropzone";
-import { ImageDialogContent } from './image-dialog-content/image-dialog-content.component';
+import { ImageDialogContent } from './imageDialog/imageDialog.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 import {FormsModule} from "@angular/forms";

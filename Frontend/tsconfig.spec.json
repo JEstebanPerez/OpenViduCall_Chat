@@ -13,7 +13,10 @@
   ],
   "include": [
     "C:/Users/Jorge/Documents/TFG/Frontend/src/app/app.component.spec.ts",
-    "C:/Users/Jorge/Documents/TFG/Frontend/src/app/image-dialog-content/image-dialog-content.component.spec.ts",
+    "C:/Users/Jorge/Documents/TFG/Frontend/src/app/imageDialog/imageDialog.component.spec.ts",
+    "C:/Users/Jorge/Documents/TFG/Frontend/src/app/models/message.spec.ts",
+    "C:/Users/Jorge/Documents/TFG/Frontend/src/app/services/session.spec.ts",
+    "C:/Users/Jorge/Documents/TFG/Frontend/src/app/services/message.spec.ts",
     "src/**/*.d.ts"
   ]
 }

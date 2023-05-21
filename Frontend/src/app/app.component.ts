@@ -13,7 +13,7 @@ import { ParticipantAbstractModel, ParticipantService, Signal, TokenModel } from
 	selector: "app-root",
 	templateUrl: './app.html',
 	styleUrls: ['./app.scss',
-				'./assets/customizable-chat-chatbox.scss']
+				'./assets/chatStyle.scss']
 })
 export class AppComponent implements OnInit {
 
@@ -343,11 +343,11 @@ import { SessionService } from "./services/session.service";
 import { session } from "./models/session.model";
 import { MessageService } from "./services/message.service";
 import { Message } from "./models/message.model";
-import { ImageDialogContent } from "./image-dialog-content/image-dialog-content.component";
+import { ImageDialogContent } from "./imageDialog/imageDialog.component";
 
 @Component({
   selector: 'cc-customizable-chat-chatbox-file-dialog',
-  templateUrl: "./file-dialog-content.component.html"
+  templateUrl: "./fileDialog.html"
 })
 
 export class FileDialogContent {

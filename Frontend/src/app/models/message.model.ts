@@ -1,3 +1,5 @@
+import * as Buffer from "buffer";
+
 
 export class Message{
     _id: String;
@@ -19,7 +21,7 @@ export class Message{
         this.cookie=cookie;
         this.type= type;
         this.creationDate= new Date();
-        this.buffer = buffer;
+        this.buffer= buffer;
     }
 
 }
