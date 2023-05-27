@@ -1,13 +1,16 @@
 import { TestBed, ComponentFixture } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
 import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from './services/session.service';
 import { MessageService } from './services/message.service';
-import { ParticipantService } from "openvidu-angular";
-
+import { OpenViduAngularModule, ParticipantService, Signal } from "openvidu-angular";
+import { Session,  SignalOptions  } from "openvidu-browser";
+import { By } from '@angular/platform-browser';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {mImage, message} from './Mocks/ComponentParameters'
+import { OpenViduAngularConfigService } from "openvidu-angular/lib/services/config/openvidu-angular.config.service";
 
 describe("AppComponent", () => {
   let component: AppComponent;
@@ -17,9 +20,14 @@ describe("AppComponent", () => {
   let messageService: MessageService;
   let domSanitizer: DomSanitizer;
   let participantService: ParticipantService;
-
   
-  beforeEach(() => {
+  let s ={ data :()=>{}};
+  
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [{MessageService, useValue: s}]
+    });
     httpClient = jasmine.createSpyObj('HttpClient', ['post']);
     matDialog = jasmine.createSpyObj('MatDialog', ['open']);
     domSanitizer = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustUrl']);
@@ -27,6 +35,7 @@ describe("AppComponent", () => {
     messageService = jasmine.createSpyObj('MessageService', ['createMessage']);
     participantService = jasmine.createSpyObj('ParticipantService', ['localParticipantObs']);
     component = new AppComponent(httpClient, matDialog, domSanitizer, sessionService, messageService,participantService);
+
   });
 
   it('should create the component', () => {
@@ -42,10 +51,11 @@ describe("AppComponent", () => {
     expect(component.cookie).not.toEqual("");
   })
 
-  it('should maximize image',()=>{
-    component.formatImage(mImage);
-    component.maximizeImage(mImage)
-    expect(mImage).toBeDefined();
+  it('should update the chat with new message',()=>{
+    spyOn(s,'data').and.stub();
+    component.onSubmit("Hola que tal");
+    expect(s.data).toHaveBeenCalled();
+
   });
 
   it('should recognise file type image',()=>{

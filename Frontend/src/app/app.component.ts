@@ -3,17 +3,14 @@ import { HttpClient } from "@angular/common/http";
 import { Subscription, lastValueFrom } from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {DomSanitizer} from "@angular/platform-browser";
-import {Socket} from "ngx-socket-io";
 import { Session,  SignalOptions  } from "openvidu-browser";
-import * as $ from "jquery";
 
 import { ParticipantAbstractModel, ParticipantService, Signal, TokenModel } from "openvidu-angular";
 
 @Component({
 	selector: "app-root",
 	templateUrl: './app.html',
-	styleUrls: ['./app.scss',
-				'./assets/chatStyle.scss']
+	styleUrls: ['./app.scss']
 })
 export class AppComponent implements OnInit {
 
@@ -340,7 +337,6 @@ export class AppComponent implements OnInit {
 
 import {Subject} from "rxjs";
 import { SessionService } from "./services/session.service";
-import { session } from "./models/session.model";
 import { MessageService } from "./services/message.service";
 import { Message } from "./models/message.model";
 import { ImageDialogContent } from "./imageDialog/imageDialog.component";

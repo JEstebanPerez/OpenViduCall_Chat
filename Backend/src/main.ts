@@ -10,7 +10,7 @@ import { NestFactory } from '@nestjs/core';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  await app.listen(3000);
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
 
@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 
 // Serve application
-server.listen(5000, () => {
+server.listen(5000, '0.0.0.0', () => {
   console.log('Application started');
 });
 

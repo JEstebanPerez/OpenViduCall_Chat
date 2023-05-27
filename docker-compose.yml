@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+      - "5000:5000"
+    container_name: backend-docker
+    depends_on:
+      - mongodb
+      - openvidu
+    networks:
+      - mynetwork
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-docker
+    ports:
+      - "27017:27017"
+    networks:
+      - mynetwork
+
+  openvidu:
+    image: openvidu/openvidu-dev:2.25.0
+    container_name: openvidu-docker
+    ports:
+      - "4443:4443"
+    environment:
+      - OPENVIDU_SECRET=MY_SECRET
+    networks:
+      - mynetwork
+
+  frontend:
+    build: ./frontend
+    ports: 
+      - "4200:4200"
+    container_name: frontend-docker
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge

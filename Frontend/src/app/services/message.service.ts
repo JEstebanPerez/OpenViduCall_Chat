@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import { Message } from '../models/message.model';
 import { map } from 'rxjs/operators';
 import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class MessageService {
 
   constructor(private httpClient: HttpClient) { }
 
-  createMessage(data:{sessionName:String, message:String, sender:String}){
+  createMessage(data:{sessionName:String, message:String, sender:String}): Observable<Message>{
       return this.httpClient.post(this.Api_url+"api/message",data).pipe(
           map(response => response as Message)
       )
