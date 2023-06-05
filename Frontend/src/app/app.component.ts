@@ -159,10 +159,7 @@ export class AppComponent implements OnInit {
 			{ headers: { 'Content-Type': 'application/json' }, responseType: 'text' }
 		));
 	}
-
-
-	// NUEVO
-
+	
 	files: File[] = [];
 	
 	public textArea = "";
