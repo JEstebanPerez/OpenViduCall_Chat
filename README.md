@@ -3,12 +3,12 @@
 This project is a develop from OpenVidu Call with a developed chat with all functions that are need. The project is fully developed using Angular for frontend and NestJS for the backend
 with a MongoDB database.
 
-### Prerequisites
+## Prerequisites
 
 Requirements for deploy the aplication:
 - [Docker]
 
-### Installing
+## Installing
 
 A step by step series of instructions that will allow you to install the project and deploy the aplication.
 For this instructions you have to be on the docker-compose file.
