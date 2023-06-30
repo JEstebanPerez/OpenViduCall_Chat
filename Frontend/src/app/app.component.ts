@@ -35,6 +35,27 @@ export class AppComponent implements OnInit {
 
 
 	
+	setCookie(name: string, value: string, days: number) {
+		let expires = '';
+		if (days) {
+		  const date = new Date();
+		  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+		  expires = '; expires=' + date.toUTCString();
+		}
+		document.cookie = name + '=' + value + expires + '; path=/';
+	  }
+
+	  getCookie(name: string) {
+		const cookies = document.cookie.split(';');
+		for (let i = 0; i < cookies.length; i++) {
+		  const cookie = cookies[i].trim();
+		  if (cookie.startsWith(name + '=')) {
+			return cookie.substring(name.length + 1);
+		  }
+		}
+		return "";
+	  }
+
 	checkCookie(){
 		//Creador de Cookies
 		this.cookie =this.getCookie("id");
@@ -118,7 +139,7 @@ export class AppComponent implements OnInit {
 		this.localParticipantSubs = this.participantService.localParticipantObs.subscribe((p) => {
 			this.localParticipant = p;
 			this.user=p.getNickname();
-			this.enviar();
+			this.changeUserName();
 		});
 
 	}
@@ -265,7 +286,7 @@ export class AppComponent implements OnInit {
 	  }
 	  
 	  //Cada vez que se cambie de nombre el usuario enviara una peticion de update a la BBDD y una señal al resto de participantes
-	  enviar(){
+	  changeUserName(){
 
 		let data ={cookie: this.cookie, sender: this.user! };
 		this.messageService.updateMessage(data).subscribe(
@@ -307,27 +328,7 @@ export class AppComponent implements OnInit {
 		this.isEmojiPickerVisible = false;
 	  }
 
-	setCookie(name: string, value: string, days: number) {
-		let expires = '';
-		console.log("sssssssssss   "+value);
-		if (days) {
-		  const date = new Date();
-		  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-		  expires = '; expires=' + date.toUTCString();
-		}
-		document.cookie = name + '=' + value + expires + '; path=/';
-	  }
-
-	  getCookie(name: string) {
-		const cookies = document.cookie.split(';');
-		for (let i = 0; i < cookies.length; i++) {
-		  const cookie = cookies[i].trim();
-		  if (cookie.startsWith(name + '=')) {
-			return cookie.substring(name.length + 1);
-		  }
-		}
-		return "";
-	  }
+	
 	  
 	
 }

@@ -38,7 +38,15 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml'],
-    browsers: ['Chrome'],
+    customLaunchers: {
+      chrome_without_security: {
+        base: 'Chrome',
+        flags: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'],
+        displayName: 'Chrome w/o security'
+      }
+    },
+    browsers: ["chrome_without_security"],
+    
     restartOnFileChange: true
   });
 };

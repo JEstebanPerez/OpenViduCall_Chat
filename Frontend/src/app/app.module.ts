@@ -13,7 +13,6 @@ import {MatCardModule} from "@angular/material/card";
 import {MatListModule} from "@angular/material/list";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
-import {SocketIoModule, SocketIoConfig} from "ngx-socket-io";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import { ImageDialogContent } from './imageDialog/imageDialog.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -23,7 +22,6 @@ import {FormsModule} from "@angular/forms";
 const config: OpenViduAngularConfig = {
   production: environment.production
 };
-const configSocket: SocketIoConfig = { url: environment.API_URL, options:{}};
 
 @NgModule({
   declarations: [
@@ -43,7 +41,6 @@ const configSocket: SocketIoConfig = { url: environment.API_URL, options:{}};
     MatButtonModule,
     NgxDropzoneModule,
     OpenViduAngularModule.forRoot(config),
-    SocketIoModule.forRoot(configSocket)
 
   ],
   providers: [],

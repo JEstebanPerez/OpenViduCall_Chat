@@ -90,41 +90,12 @@ body {
   width:100%;
 }
 
-.background-frame{
-  @include themify($themes){
-    background-color: themed('bg-app')!important;
-    color: themed('text')!important;
-  }
-}
-
 .chatBox {
   position: absolute;
   height: 100%;
   width: 100%;
 }
 
-.imageChatProfile {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  @include themify($themes) {
-    border: 2px solid themed('medium-color');
-  }
-}
-
-.spacerImageText {
-  margin-right: 2%;
-}
-
-#upperChat {
-  @include themify($themes) {
-    border-bottom: 2px solid themed('medium-color');
-    background: themed('main-color');
-  }
-  color: white;
-  width: 100%;
-  height: 100%;
-}
 
 
 #lowerChat {
@@ -143,17 +114,6 @@ body {
   overflow-y: scroll;
 }
 
-.medium {
-  position: fixed;
-  height: 84%;
-  width: 100%;
-  top: 7%;
-  @include themify($themes) {
-    background: themed('background-chat-opened');
-  }
-  background-repeat: no-repeat;
-}
-
 .lower {
   height: 9%;
   width: 80%;
@@ -162,39 +122,11 @@ body {
   margin-bottom: 50px;
 }
 
-.chatFrame {
-  width: 62.5%;
-  height: 95%;
-  top: 2.5%;
-  bottom: 2.5%;
-  left: 2.5%;
-  right: 2.5%;
-  position: relative;
-  overflow-y: scroll;
-}
-
-
-
-.mat-toolbar.mat-warn {
-
-  background: transparent;
-  color: #fff;
-
-}
-
-.leftCard {
-  width: 90% !important;
-  height: auto !important;
-  float: left !important;
-  margin-bottom: 1%;
-  max-width: 90% !important;
-  word-break: break-all;
-}
-
 
 
 .leftItem {
-  width: 40%;
+  display: inline-block;
+  width: auto;
 
   background-color:#feafc6;
   @include themify($themes) {
@@ -203,25 +135,14 @@ body {
   }
 }
 
-.rightCard {
-  width: 90% !important;
-  height: auto !important;
-  float: right !important;
-  margin-bottom: 1%;
-  right: 0;
-  max-width: 90% !important;
-  
+mat-card-subtitle, mat-card-title{
   word-break: break-all;
-}
-
-::ng-deep .mat-list-item.rightCard .mat-list-item-content {
-  float: right !important;
 }
 
 .rightItem {
   background-color: #95BDFF;
-  width: 40%;
-  height: 4%;
+  display: inline-block;
+  width: auto;
   float: right;
   @include themify($themes) {
     background: themed('message-right-fill');
@@ -270,6 +191,13 @@ body {
   position:absolute;
 }
 
+.leftButtonClip {
+  width: 4%;
+  position:relative;
+  margin-left: 1%;
+}
+
+
 .emoji-mart--button--dimensions {
   width: 30px;
   height: 30px;
@@ -282,6 +210,18 @@ body {
   &:focus {
     outline: 0;
   }
+}
+
+.rightTextArea {
+  width: 60%;
+  float: left;
+  margin-left: 10px;
+}
+
+.midEmojiButton {
+  width: 4%;
+  position:relative;
+  margin-left: 1%;
 }
 
 
@@ -313,23 +253,6 @@ body {
   margin-top: 1%;
 }
 
-.leftButtonClip {
-  width: 4%;
-  position:relative;
-  margin-left: 1%;
-}
-
-.rightTextArea {
-  width: 60%;
-  float: left;
-  margin-left: 10px;
-}
-
-.midEmojiButton {
-  width: 4%;
-  position:relative;
-  margin-left: 1%;
-}
 
 .imageFile {
   width: 20%;
@@ -346,10 +269,6 @@ body {
   height: 50%;
   left: 35%;
   cursor: pointer;
-}
-
-.espacio{
-  margin-top: 20;
 }
 
 .chat-messages--text-title--dimension {
@@ -376,38 +295,12 @@ body {
   overflow-y: scroll;
 }
 
-.example-header-image {
-  @include themify($themes) {
-    background-image: themed('user-default-icon');
-    border-radius: 50%;
-  }
-  background-size: cover;
-  align-content: center;
-  text-align: center;
-  position: relative;
-  width: 7em;
-  height: 7em;
-  left: 32.5%;
-}
 
+.mat-toolbar.mat-warn {
 
-.imageChatProfileInfo{
-  align-content: center;
-  text-align: center;
-  position: relative;
+  background: transparent;
+  color: #fff;
 
-  width: 7em;
-  height: 7em;
-  border-radius: 50%;
-  background-clip: padding-box;
-}
-
-.container {
-  position: absolute;
-  height: 25%;
-  width: 20%;
-  left: 23%;
-  top: 27.5%;
 }
 
 #chat-description--content--dimensions {
@@ -453,59 +346,6 @@ button {
   outline: none;
 }
 
-button.form-btn {
-  position: absolute;
-  width: 50%;
-  height: 60px;
-  bottom: 0;
-  border: 0;
-  font-family: 'Dosis';
-  font-size: 24px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-button.form-btn.sx {
-  left: 0;
-  border-radius: 0 0 0 5px;
-  background-color: rgba(0, 0, 0, 0.65);
-  color: #fff;
-  transition: all 0.3s linear;
-}
-
-button.form-btn.sx:hover {
-  background-color: rgba(0, 0, 0, 1);
-  color: #fff;
-}
-
-button.form-btn.sx.back {
-  background-color: rgba(0, 0, 0, 0.65);
-  transition: all 0.3s linear;
-}
-
-button.form-btn.sx.back:hover {
-  background-color: rgba(0, 0, 0, 1);
-}
-
-button.form-btn.dx {
-  right: 0;
-  border-radius: 0 0 5px 0;
-  background-color: #ace7ff;
-  color: #fff;
-}
-
-button.form-btn.dx:hover {
-  background-color: #00acee;
-}
-
-.signUp .w100 {
-  width: 100%;
-}
-
-.signUp {
-  z-index: 2;
-}
-
 .animation--modal{
   animation-name: scale--open;
   animation-duration: 0.7s;
@@ -540,17 +380,6 @@ button.form-btn.dx:hover {
   }
 }
 
-.modal--chat-description--opacity-inactive{
-  opacity: 0;
-}
-
-.modal-dark-mode h3, .modal-dark-mode p {
-  color: $white-smoke;
-}
-
-.modal-light-mode h3, .modal-light-mode p {
-  color: #4e2f42;
-}
 
 .imageButtonBottomPart{
   max-width: 30px;
