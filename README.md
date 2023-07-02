@@ -35,7 +35,7 @@ To execute the unitary tests:
 
     ng test
 
-and to execute the E2E tests:
+and before to execute the E2E tests, you have to had the application running and then execute this command:
 
     npx playwright test
 
