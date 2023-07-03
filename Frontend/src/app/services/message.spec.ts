@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { MessageService } from './message.service';
 import { environment } from '../../environments/environment';
 import { Message } from '../models/message.model';
+import { formSendFile } from '../Mocks/sendFileMock';
 
 describe('MessageService', () => {
   let service: MessageService;
@@ -27,7 +28,7 @@ describe('MessageService', () => {
 
   it('should create a message', () => {
     const messageData = {
-      sessionName: 'Test Session',
+      sessionName: 'panel-directive-example',
       message: 'Test Message',
       sender: 'Test Sender'
     };
@@ -43,6 +44,19 @@ describe('MessageService', () => {
     expect(req.request.body).toEqual(messageData);
   });
 
+  it('should send a file', () => {
+    const fileData = formSendFile 
+
+    service.sendFile(fileData).subscribe(message => {
+      expect(message).toBeTruthy();
+    });
+
+    const req = httpMock.expectOne(environment.API_URL + 'api/files');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(fileData);
+
+  });
+
   it('should get messages', () => {
     const sessionName = 'panel-directive-example';
 
@@ -53,6 +67,18 @@ describe('MessageService', () => {
 
     const req = httpMock.expectOne(environment.API_URL + 'api/message?sessionName=' + sessionName);
     expect(req.request.method).toBe('GET');
+  });
+
+  it('should get a file', () => {
+    const fileId = '12345';
+
+    service.getFile(fileId).subscribe(file => {
+      expect(file).toBeTruthy();
+    });
+
+    const req = httpMock.expectOne(environment.API_URL + 'api/files/' + fileId);
+    expect(req.request.method).toBe('GET');
+
   });
 
   it('should update a message', () => {
@@ -71,29 +97,5 @@ describe('MessageService', () => {
     expect(req.request.body).toEqual(updateData);
 
   });
-
-  it('should send a file', () => {
-    const fileData = {} // Mock file data
-
-    service.sendFile(fileData).subscribe(message => {
-      expect(message).toBeTruthy();
-    });
-
-    const req = httpMock.expectOne(environment.API_URL + 'api/files');
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(fileData);
-
-  });
-
-  it('should get a file', () => {
-    const fileId = '12345';
-
-    service.getFile(fileId).subscribe(file => {
-      expect(file).toBeTruthy();
-    });
-
-    const req = httpMock.expectOne(environment.API_URL + 'api/files/' + fileId);
-    expect(req.request.method).toBe('GET');
-
-  });
+  
 });
