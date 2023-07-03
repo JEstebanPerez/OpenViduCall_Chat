@@ -27,9 +27,17 @@ If you want to develop for next versions you have to do this instruction before 
 
 ## Running the tests
 
-You have to be on the frontend directory:
+There are two types of test so to execute them, we nned to execute this two commands
+
+First you have to be on the frontend directory and then
+
+To execute the unitary tests:
 
     ng test
+
+and before to execute the E2E tests, you have to had the application running and then execute this command:
+
+    npx playwright test
 
 ## Built With
 
